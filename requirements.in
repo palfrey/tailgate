@@ -1,2 +1,11 @@
+Flask
+PyYAML
 requests
-pyyaml
+rauth
+Flask-SQLAlchemy
+gunicorn
+psycopg2
+Flask-Migrate
+
+flake8
+pip-tools

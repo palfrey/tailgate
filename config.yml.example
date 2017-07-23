@@ -1,3 +1,7 @@
 goodreads:
   key: KEY
   secret: SECRET
+flask:
+    secret_key: SecretMagic
+app:
+    database_uri: sqlite:////tmp/test.db

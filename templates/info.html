@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Tailgate - {{ user.name }}{% endblock %}
+{% block content %}
+<div class="jumbotron">
+	<h1>Tailgate</h1>
+	<p>
+		Next few books:
+		<ul>
+		{% for book in next_books %}
+			<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author_.id}}">{{book.author_.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
+		{% endfor %}
+		</ul>
+		Previous few books:
+		<ul>
+		{% for book in prev_books %}
+			<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author_.id}}">{{book.author_.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
+		{% endfor %}
+		</ul>
+		Authors:
+		<ul>
+		{% for author in authors %}
+			<li><a href="https://www.goodreads.com/author/show/{{author.id}}">{{author.name}}</a></li>
+		{% endfor %}
+		</ul>	
+	</p>	
+</div>
+{% endblock %}
