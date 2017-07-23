@@ -11,6 +11,7 @@ import logging
 import sys
 import datetime
 import re
+import icalendar
 
 app = Flask(__name__)
 if "DYNO" in os.environ:
@@ -106,9 +107,7 @@ def oauth_callback():
     db.session.commit()
     return redirect(url_for("info", id=id))
 
-@app.route("/info/<int:id>")
-def info(id):
-    user = User.query.filter_by(id=id).first()
+def all_books_for_user(user):
     session = OAuth1Session(
         consumer_key = config["goodreads"]["key"],
         consumer_secret = config["goodreads"]["secret"],
@@ -139,6 +138,28 @@ def info(id):
         authors.append(author)
         author.update_books(session)
         all_books.extend(author.books)
+    return (authors, all_books)
+
+@app.route("/info/<int:id>")
+def info(id):
+    user = User.query.filter_by(id=id).first()
+    (authors, all_books) = all_books_for_user(user)
     next_books = sorted([x for x in all_books if x.published>datetime.datetime.today()], key=lambda x:x.published)
     prev_books = sorted([x for x in all_books if x.published<datetime.datetime.today()], key=lambda x:x.published, reverse=True)
     return render_template('info.html', user=user, authors=sorted(authors, key=lambda x:x.name), next_books=next_books[:5], prev_books=prev_books[:5])
+
+@app.route("/calendar/<int:id>")
+def calendar(id):
+    user = User.query.filter_by(id=id).first()
+    (_, all_books) = all_books_for_user(user)
+    cal = icalendar.Calendar()
+    cal['prodid'] = '-//Book calendar//'
+    cal['version'] = '2.0'
+    cal['summary'] = "Book calendar for %s" % user.name
+    for book in all_books:
+        event = icalendar.Event()
+        event['uid'] = book.id
+        event['dtstart'] = book.published
+        event['summary'] = "%s - %s" % (book.author.name, book.title)
+        cal.add_component(event)
+    return cal.to_ical()

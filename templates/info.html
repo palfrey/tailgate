@@ -4,6 +4,7 @@
 <div class="jumbotron">
 	<h1>Tailgate</h1>
 	<p>
+		<a href="{{url_for('calendar', id=user.id)}}">iCal calendar</a><br />
 		Next few books:
 		<ul>
 		{% for book in next_books %}

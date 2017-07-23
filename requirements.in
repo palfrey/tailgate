@@ -6,6 +6,7 @@ Flask-SQLAlchemy
 gunicorn
 psycopg2
 Flask-Migrate
+icalendar
 
 flake8
 pip-tools
