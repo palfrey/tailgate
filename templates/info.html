@@ -7,13 +7,13 @@
 		Next few books:
 		<ul>
 		{% for book in next_books %}
-			<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author_.id}}">{{book.author_.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
+			<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author.id}}">{{book.author.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
 		{% endfor %}
 		</ul>
 		Previous few books:
 		<ul>
 		{% for book in prev_books %}
-			<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author_.id}}">{{book.author_.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
+			<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author.id}}">{{book.author.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
 		{% endfor %}
 		</ul>
 		Authors:

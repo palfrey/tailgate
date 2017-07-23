@@ -10,6 +10,7 @@ from xml.etree import ElementTree
 import logging
 import sys
 import datetime
+import re
 
 app = Flask(__name__)
 if "DYNO" in os.environ:
@@ -118,18 +119,21 @@ def info(id):
     # following.raise_for_status()
     # following = ElementTree.fromstring(following.content)
     # author_user_ids = [int(author_user.find("id").text) for author_user in following.findall("following/user")]
+
+    following = session.get("https://www.goodreads.com/user/%d/following" % user.id)
+    following.raise_for_status()
+    author_ids = [int(x) for x in re.findall("<a class=\"authorName\" href=\"/author/show/(\d+)", following.text)]
+
     authors = []
     all_books = []
-    for author_user in following.findall("following/user"):
-        user_id = int(author_user.find("id").text)
-        author = Author.query.filter_by(user_id=user_id).first()
+    for author_id in author_ids:
+        author = Author.query.filter_by(id=author_id).first()
         if author is None:
-            user_data = session.get("https://www.goodreads.com/user/show/%d.xml" % user_id)
-            user_data.raise_for_status()
-            user_data = ElementTree.fromstring(user_data.content)
-            author_id = int(user_data.find("user/author/id").text)
-            name = user_data.find("user/name").text
-            author = Author(id=author_id, user_id=user_id, name=name)
+            author_data = session.get("https://www.goodreads.com/author/show/%d?format=xml" % author_id)
+            author_data.raise_for_status()
+            author_data = ElementTree.fromstring(author_data.content)
+            name = author_data.find("author/name").text
+            author = Author(id=author_id, name=name)
             db.session.add(author)
             db.session.commit()
         authors.append(author)
@@ -137,4 +141,4 @@ def info(id):
         all_books.extend(author.books)
     next_books = sorted([x for x in all_books if x.published>datetime.datetime.today()], key=lambda x:x.published)
     prev_books = sorted([x for x in all_books if x.published<datetime.datetime.today()], key=lambda x:x.published, reverse=True)
-    return render_template('info.html', user=user, authors=authors, next_books=next_books[:5], prev_books=prev_books[:5])
+    return render_template('info.html', user=user, authors=sorted(authors, key=lambda x:x.name), next_books=next_books[:5], prev_books=prev_books[:5])
