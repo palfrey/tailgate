@@ -1,6 +1,6 @@
 from rauth import OAuth1Service, OAuth1Session
 from flask import (Flask, render_template, url_for,
-                   request, session, redirect)
+                   request, session, redirect, make_response)
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, upgrade
 from models import build_models
@@ -155,11 +155,16 @@ def calendar(id):
     cal = icalendar.Calendar()
     cal['prodid'] = '-//Book calendar//'
     cal['version'] = '2.0'
-    cal['summary'] = "Book calendar for %s" % user.name
+    cal['X-WR-CALNAME'] = "Book calendar for %s" % user.name
     for book in all_books:
         event = icalendar.Event()
         event['uid'] = book.id
         event['dtstart'] = book.published
+        event['dtend'] = book.published + datetime.timedelta(days=1)
         event['summary'] = "%s - %s" % (book.author.name, book.title)
         cal.add_component(event)
-    return cal.to_ical()
+    resp = make_response(cal.to_ical())
+    resp.headers["Content-Type"] = "text/Calendar"
+    resp.headers["Cache-Control"] = "no-cache, must-revalidate"
+    resp.headers["Expires"] = "Sat, 26 Jul 1997 05:00:00 GMT"
+    return resp
