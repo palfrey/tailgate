@@ -160,6 +160,7 @@ def calendar(id):
         event = icalendar.Event()
         event.add('uid', book.id)
         event.add('dtstart', book.published.date())
+        event.add('dtend', (book.published + datetime.timedelta(days=1)).date())
         event.add('summary', "%s - %s" % (book.author.name, book.title))
         cal.add_component(event)
     resp = make_response(cal.to_ical())
