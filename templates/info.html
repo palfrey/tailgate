@@ -4,25 +4,25 @@
 <div class="jumbotron">
 	<h1>Tailgate</h1>
 	<p>
-		<a href="{{url_for('calendar', id=user.id)}}">iCal calendar</a><br />
+		<a href="{{url_for('calendar', id=user.id)}}">iCal calendar</a> (right click and "copy link address")<br />
 		Next few books:
-		<ul>
-		{% for book in next_books %}
-			<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author.id}}">{{book.author.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
-		{% endfor %}
-		</ul>
-		Previous few books:
-		<ul>
-		{% for book in prev_books %}
-			<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author.id}}">{{book.author.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
-		{% endfor %}
-		</ul>
-		Authors:
-		<ul>
-		{% for author in authors %}
-			<li><a href="https://www.goodreads.com/author/show/{{author.id}}">{{author.name}}</a></li>
-		{% endfor %}
-		</ul>	
-	</p>	
+	<p>
+	<ul>
+	{% for book in next_books %}
+		<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author.id}}">{{book.author.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
+	{% endfor %}
+	</ul>
+	<p>Previous few books:</p>
+	<ul>
+	{% for book in prev_books %}
+		<li>{{book.published.date()}} <a href="https://www.goodreads.com/author/show/{{book.author.id}}">{{book.author.name}}</a> - <a href="https://www.goodreads.com/book/show/{{book.id}}">{{book.title}}</a></li>
+	{% endfor %}
+	</ul>
+	<p>Authors:</p>
+	<ul>
+	{% for author in authors %}
+		<li><a href="https://www.goodreads.com/author/show/{{author.id}}">{{author.name}}</a></li>
+	{% endfor %}
+	</ul>
 </div>
 {% endblock %}
