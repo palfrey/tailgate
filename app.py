@@ -153,15 +153,14 @@ def calendar(id):
     user = User.query.filter_by(id=id).first()
     (_, all_books) = all_books_for_user(user)
     cal = icalendar.Calendar()
-    cal['prodid'] = '-//Book calendar//'
-    cal['version'] = '2.0'
-    cal['X-WR-CALNAME'] = "Book calendar for %s" % user.name
+    cal.add('prodid', '-//Book calendar//')
+    cal.add('version','2.0')
+    cal.add('X-WR-CALNAME', "Book calendar for %s" % user.name)
     for book in all_books:
         event = icalendar.Event()
-        event['uid'] = book.id
-        event['dtstart'] = book.published
-        event['dtend'] = book.published + datetime.timedelta(days=1)
-        event['summary'] = "%s - %s" % (book.author.name, book.title)
+        event.add('uid', book.id)
+        event.add('dtstart', book.published.date())
+        event.add('summary', "%s - %s" % (book.author.name, book.title))
         cal.add_component(event)
     resp = make_response(cal.to_ical())
     resp.headers["Content-Type"] = "text/Calendar"
