@@ -32,7 +32,6 @@ if "DYNO" in os.environ:
 else:
     config = yaml.safe_load(open('config.yml', 'r'))
 
-
 @app.before_first_request
 def initial_setup():
     with app.app_context():
@@ -48,11 +47,13 @@ app.secret_key = config["flask"]["secret_key"]
 app.config['SQLALCHEMY_DATABASE_URI'] = config["app"]["database_uri"]
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG'] = os.environ.get('DEBUG', False)
+if type(app.config['DEBUG']) == str:
+    app.config['DEBUG'] = app.config['DEBUG'].lower() == "true"
 if app.config["DEBUG"]:
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
     app.logger.setLevel(logging.DEBUG)
-    #app.config["SQLALCHEMY_ECHO"] = True
     logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+log = app.logger
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -119,6 +120,7 @@ def all_books_for_user(user):
     # following = ElementTree.fromstring(following.content)
     # author_user_ids = [int(author_user.find("id").text) for author_user in following.findall("following/user")]
 
+    log.debug("Get following list for %s" % user.name)
     following = session.get("https://www.goodreads.com/user/%d/following" % user.id)
     following.raise_for_status()
     author_ids = [int(x) for x in re.findall("<a class=\"authorName\" href=\"/author/show/(\d+)", following.text)]
@@ -128,6 +130,7 @@ def all_books_for_user(user):
     for author_id in author_ids:
         author = Author.query.filter_by(id=author_id).first()
         if author is None:
+            log.info("Getting data for author %d" % author_id)
             author_data = session.get("https://www.goodreads.com/author/show/%d?format=xml" % author_id)
             author_data.raise_for_status()
             author_data = ElementTree.fromstring(author_data.content)
