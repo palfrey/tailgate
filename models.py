@@ -1,5 +1,8 @@
 import datetime
 import author_list
+import logging
+
+log = logging.getLogger("models")
 
 def build_models(db):
     class User(db.Model):
@@ -19,7 +22,8 @@ def build_models(db):
         books = db.relationship('Book', backref='author', lazy='dynamic')
 
         def update_books(self, session):
-            if self.last_updated is None:
+            if self.last_updated is None or self.last_updated + datetime.timedelta(days=1) < datetime.datetime.now():
+                log.info("Updating %s" % self.name)
                 books = author_list.get_books(session, self)
                 for book in self.books:
                     db.session.delete(book)
