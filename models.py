@@ -29,15 +29,14 @@ def build_models(db):
                 datetime.datetime.now() - self.last_updated)
 
         def update_books(self, key=None):
-            if self.last_updated is None or self.last_updated + datetime.timedelta(days=1) < datetime.datetime.now():
-                log.info("Updating %s" % self.name)
-                books = author_list.get_books(key, self)
-                for book in self.books:
-                    db.session.delete(book)
-                for title, values in books.items():
-                    db.session.add(Book(id=values["id"], title=title, published=values["when"], author=self))
-                self.last_updated = datetime.datetime.now()
-                db.session.commit()
+            log.info("Updating %s" % self.name)
+            books = author_list.get_books(key, self)
+            for book in self.books:
+                db.session.delete(book)
+            for title, values in books.items():
+                db.session.add(Book(id=values["id"], title=title, published=values["when"], author=self))
+            self.last_updated = datetime.datetime.now()
+            db.session.commit()
 
     class Book(db.Model):
         id = db.Column(db.Integer, primary_key=True)
