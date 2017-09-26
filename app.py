@@ -46,10 +46,11 @@ def make_session_permanent():
 app.secret_key = config["flask"]["secret_key"]
 app.config['SQLALCHEMY_DATABASE_URI'] = config["app"]["database_uri"]
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['DEBUG'] = os.environ.get('DEBUG', False)
+app.config['DEBUG'] = os.environ.get('FLASK_DEBUG', False)
 if type(app.config['DEBUG']) == str:
     app.config['DEBUG'] = app.config['DEBUG'].lower() == "true"
 if app.config["DEBUG"]:
+    app.debug = True
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
     app.logger.setLevel(logging.DEBUG)
     logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)

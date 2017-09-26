@@ -14,7 +14,7 @@ Local install
 3. Get a [Goodreads Developer Key](https://www.goodreads.com/api/keys) and add the key/secret to `config.yml`
 4. `npm install`
 5. `pip install -r requirements.txt`
-6. `gunicorn app:app --log-file - --error-logfile - --capture-output --log-level debug --reload`
+6. `FLASK_DEBUG=true FLASK_APP=app.py flask run -p 8000`
 7. Goto [http://localhost:8000/](http://localhost:8000/)
 
 Heroku install
