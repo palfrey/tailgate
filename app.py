@@ -178,3 +178,12 @@ def author(id, author_id):
     author = Author.query.filter_by(id=author_id).first()
     author.update_books(key=config["goodreads"]["key"])
     return redirect(url_for("info", id=id))
+
+if __name__ == "__main__":
+    print("Updating authors")
+    order = Author.last_updated.desc()
+    if db.session.bind.dialect.name != "sqlite": # Due to https://bitbucket.org/zzzeek/sqlalchemy/issues/3231/nullsfirst-nullslast-broken-with-sqlite
+        order = order.nullsfirst()
+    for author in Author.query.order_by(order).all():
+        print("Updating %s" % author.name)
+        author.update_books(key=config["goodreads"]["key"])

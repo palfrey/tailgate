@@ -27,4 +27,5 @@ These steps have already been run to enable [https://tailgate.herokuapp.com/](ht
     * Set `FLASK_ENCRYPTION_KEY` to something random
     * Set `KEY` and `SECRET` to your Goodreads key/secret
 3. Add "Heroku Postgres" to the addons for this app. "Hobby Dev" level is good enough.
-4. Click "Open app" and make sure the app comes up ok, as the first request does the initial database migrations.
+4. Add ["Heroku Scheduler"](https://elements.heroku.com/addons/scheduler) to the addons for this app, and add `python app.py` to run every so often.
+5. Click "Open app" and make sure the app comes up ok, as the first request does the initial database migrations.
