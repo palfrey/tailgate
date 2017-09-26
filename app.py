@@ -53,7 +53,7 @@ if app.config["DEBUG"]:
     app.debug = True
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
     app.logger.setLevel(logging.DEBUG)
-    logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+    logging.getLogger('sqlalchemy.engine').setLevel(logging.WARN)
 log = app.logger
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 db = SQLAlchemy(app)
