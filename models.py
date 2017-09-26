@@ -1,6 +1,7 @@
 import datetime
 import author_list
 import logging
+import humanize
 
 log = logging.getLogger("models")
 
@@ -21,10 +22,16 @@ def build_models(db):
         last_updated = db.Column(db.DateTime, nullable=True)
         books = db.relationship('Book', backref='author', lazy='dynamic')
 
-        def update_books(self, session):
+        def pretty_update(self):
+            if self.last_updated is None:
+                return "never"
+            return humanize.naturaltime(
+                datetime.datetime.now() - self.last_updated)
+
+        def update_books(self, key=None):
             if self.last_updated is None or self.last_updated + datetime.timedelta(days=1) < datetime.datetime.now():
                 log.info("Updating %s" % self.name)
-                books = author_list.get_books(session, self)
+                books = author_list.get_books(key, self)
                 for book in self.books:
                     db.session.delete(book)
                 for title, values in books.items():

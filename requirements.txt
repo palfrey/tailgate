@@ -15,6 +15,7 @@ flask-script==2.0.5       # via flask-migrate
 flask-sqlalchemy==2.2
 flask==0.12.2
 gunicorn==19.7.1
+humanize==0.5.1
 icalendar==3.11.5
 idna==2.5                 # via requests
 itsdangerous==0.24        # via flask

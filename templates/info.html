@@ -21,7 +21,11 @@
 	<p>Authors:</p>
 	<ul>
 	{% for author in authors %}
-		<li><a href="https://www.goodreads.com/author/show/{{author.id}}">{{author.name}}</a></li>
+		<li><a href="https://www.goodreads.com/author/show/{{author.id}}">{{author.name}}</a> -
+			<form style="display: inline-block;" method="POST" action="{{url_for('author', id=user.id, author_id=author.id)}}">
+				<input class="btn btn-primary" type="submit" value="last updated {{author.pretty_update()}}" />
+			</form>
+		</li>
 	{% endfor %}
 	</ul>
 </div>

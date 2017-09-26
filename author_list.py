@@ -2,7 +2,7 @@ import requests, datetime
 from xml.etree import ElementTree
 import logging
 
-def get_books(session, author_obj):
+def get_books(key, author_obj):
     all_books = {}
 
     page = 1
@@ -14,8 +14,8 @@ def get_books(session, author_obj):
 
     while True:
         logging.debug("Page %d", page)
-        url = "https://www.goodreads.com/search/index.xml?q=%s&search=author&page=%s" % (author_obj.name, page)
-        following = session.get(url)
+        url = "https://www.goodreads.com/search/index.xml?q=%s&search=author&page=%s&key=%s" % (author_obj.name, page, key)
+        following = requests.get(url)
         following.raise_for_status()
         tree = ElementTree.fromstring(following.content)
         books = tree.findall("./search/results/work")

@@ -139,7 +139,6 @@ def all_books_for_user(user):
             db.session.add(author)
             db.session.commit()
         authors.append(author)
-        author.update_books(session)
         all_books.extend(author.books)
     return (authors, all_books)
 
@@ -172,3 +171,9 @@ def calendar(id):
     resp.headers["Cache-Control"] = "no-cache, must-revalidate"
     resp.headers["Expires"] = "Sat, 26 Jul 1997 05:00:00 GMT"
     return resp
+
+@app.route("/author/<int:id>/<int:author_id>", methods=["POST"])
+def author(id, author_id):
+    author = Author.query.filter_by(id=author_id).first()
+    author.update_books(key=config["goodreads"]["key"])
+    return redirect(url_for("info", id=id))
