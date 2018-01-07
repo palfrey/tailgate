@@ -34,7 +34,7 @@ def get_books(key, author_obj):
                 continue
             if title not in all_books or (when !=None and all_books[title]["when"] > when):
                 all_books[title] = {"when": when, "id": int(book.find("best_book/id").text)}
-        if len(books) == 20:
+        if len(books) == 10:
             page +=1
         else:
             break
