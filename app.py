@@ -66,10 +66,10 @@ goodreads = OAuth1Service(
     consumer_key=config["goodreads"]["key"],
     consumer_secret=config["goodreads"]["secret"],
     name='goodreads',
-    request_token_url='http://www.goodreads.com/oauth/request_token',
-    authorize_url='http://www.goodreads.com/oauth/authorize',
-    access_token_url='http://www.goodreads.com/oauth/access_token',
-    base_url='http://www.goodreads.com/'
+    request_token_url='https://www.goodreads.com/oauth/request_token',
+    authorize_url='https://www.goodreads.com/oauth/authorize',
+    access_token_url='https://www.goodreads.com/oauth/access_token',
+    base_url='https://www.goodreads.com/'
 )
 
 @app.route("/")
