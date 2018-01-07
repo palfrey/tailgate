@@ -181,7 +181,7 @@ def author(id, author_id):
 
 if __name__ == "__main__":
     print("Updating authors")
-    order = Author.last_updated.desc()
+    order = Author.last_updated.asc()
     if db.session.bind.dialect.name != "sqlite": # Due to https://bitbucket.org/zzzeek/sqlalchemy/issues/3231/nullsfirst-nullslast-broken-with-sqlite
         order = order.nullsfirst()
     for author in Author.query.order_by(order).all():
