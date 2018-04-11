@@ -34,7 +34,12 @@ def build_models(db):
             for book in self.books:
                 db.session.delete(book)
             for title, values in books.items():
-                db.session.add(Book(id=values["id"], title=title, published=values["when"], author=self))
+                id = values["id"]
+                book = Book.query.filter_by(id=id).first()
+                if book != None:
+                    print("Multiple authors for %s" % title)
+                    continue
+                db.session.add(Book(id=id, title=title, published=values["when"], author=self))
             self.last_updated = datetime.datetime.now()
             db.session.commit()
 
