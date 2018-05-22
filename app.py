@@ -167,6 +167,7 @@ def calendar(id):
         event.add('dtstamp', datetime.datetime.now())
         event.add('summary', "%s - %s" % (book.author.name, book.title))
         event.add('url', 'https://www.goodreads.com/book/show/%s' % book.id)
+        event.add('description', 'https://www.goodreads.com/book/show/%s' % book.id)
         cal.add_component(event)
     resp = make_response(cal.to_ical())
     resp.headers["Content-Type"] = "text/Calendar"
