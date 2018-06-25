@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fpalfrey%2Ftailgate.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fpalfrey%2Ftailgate?ref=badge_shield)
+
 Tailgate
 ========
 
@@ -29,3 +31,7 @@ These steps have already been run to enable [https://tailgate.herokuapp.com/](ht
 3. Add "Heroku Postgres" to the addons for this app. "Hobby Dev" level is good enough.
 4. Add ["Heroku Scheduler"](https://elements.heroku.com/addons/scheduler) to the addons for this app, and add `python app.py` to run every so often.
 5. Click "Open app" and make sure the app comes up ok, as the first request does the initial database migrations.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fpalfrey%2Ftailgate.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fpalfrey%2Ftailgate?ref=badge_large)
