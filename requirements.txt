@@ -32,7 +32,7 @@ python-editor==1.0.3      # via alembic
 pytz==2017.2              # via icalendar
 pyyaml==3.12
 rauth==0.7.3
-requests==2.18.1
+requests==2.19.1
 six==1.10.0               # via pip-tools, python-dateutil
 sqlalchemy==1.1.11        # via alembic, flask-sqlalchemy
 urllib3==1.21.1           # via requests
