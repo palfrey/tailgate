@@ -22,7 +22,7 @@ mako==1.0.7               # via alembic
 markupsafe==1.0           # via jinja2, mako
 mccabe==0.6.1             # via flake8
 pip-tools==3.1.0
-psycopg2==2.7.2
+psycopg2==2.7.5
 pycodestyle==2.3.1        # via flake8
 pyflakes==1.5.0           # via flake8
 python-dateutil==2.6.1    # via alembic, icalendar
