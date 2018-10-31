@@ -8,7 +8,6 @@ alembic==0.9.3            # via flask-migrate
 certifi==2017.4.17        # via requests
 chardet==3.0.4            # via requests
 click==6.7                # via flask, pip-tools
-first==2.0.1              # via pip-tools
 flake8==3.3.0
 flask-migrate==2.0.4
 flask-script==2.0.5       # via flask-migrate
@@ -19,11 +18,11 @@ humanize==0.5.1
 icalendar==3.11.5
 idna==2.5                 # via requests
 itsdangerous==0.24        # via flask
-jinja2==2.9.6             # via flask
+jinja2==2.10              # via flask
 mako==1.0.7               # via alembic
 markupsafe==1.0           # via jinja2, mako
 mccabe==0.6.1             # via flake8
-pip-tools==1.9.0
+pip-tools==3.1.0
 psycopg2==2.7.2
 pycodestyle==2.3.1        # via flake8
 pyflakes==1.5.0           # via flake8
@@ -36,4 +35,4 @@ requests==2.20.0
 six==1.10.0               # via pip-tools, python-dateutil
 sqlalchemy==1.1.11        # via alembic, flask-sqlalchemy
 urllib3==1.21.1           # via requests
-werkzeug==0.12.2          # via flask
+werkzeug==0.14.1          # via flask
