@@ -7,7 +7,8 @@
     "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'static/bower_components', 'junction') } catch (e) { }\""
   },
   "cacheDirectories": [
-    "node_modules"
+    "node_modules",
+    "static"
   ],
   "engines": {
     "node": ">=4",
