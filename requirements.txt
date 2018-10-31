@@ -9,8 +9,7 @@ certifi==2017.4.17        # via requests
 chardet==3.0.4            # via requests
 click==6.7                # via flask, pip-tools
 flake8==3.3.0
-flask-migrate==2.0.4
-flask-script==2.0.5       # via flask-migrate
+flask-migrate==2.3.0
 flask-sqlalchemy==2.2
 flask==1.0.2
 gunicorn==19.7.1

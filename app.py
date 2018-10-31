@@ -32,8 +32,11 @@ if "DYNO" in os.environ:
 else:
     config = yaml.safe_load(open('config.yml', 'r'))
 
+print("Config", config)
+
 @app.before_first_request
 def initial_setup():
+    print("Initial upgrade")
     with app.app_context():
         upgrade()
 
