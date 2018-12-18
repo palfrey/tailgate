@@ -33,5 +33,5 @@ rauth==0.7.3
 requests==2.20.0
 six==1.10.0               # via pip-tools, python-dateutil
 sqlalchemy==1.1.11        # via alembic, flask-sqlalchemy
-urllib3==1.21.1           # via requests
+urllib3==1.24.1           # via requests
 werkzeug==0.14.1          # via flask
