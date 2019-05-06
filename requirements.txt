@@ -17,7 +17,7 @@ humanize==0.5.1
 icalendar==3.11.5
 idna==2.5                 # via requests
 itsdangerous==0.24        # via flask
-jinja2==2.10              # via flask
+jinja2==2.10.1            # via flask
 mako==1.0.7               # via alembic
 markupsafe==1.0           # via jinja2, mako
 mccabe==0.6.1             # via flake8
