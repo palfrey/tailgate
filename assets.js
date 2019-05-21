@@ -3,7 +3,7 @@ const CSS = [
     'bootstrap/dist/css/bootstrap-theme.min.css'
 ];
 const JS = [
-    'jquery/jquery.min.js',
+    'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js'
 ];
 
