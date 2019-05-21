@@ -28,7 +28,7 @@ pyflakes==1.5.0           # via flake8
 python-dateutil==2.6.1    # via alembic, icalendar
 python-editor==1.0.3      # via alembic
 pytz==2017.2              # via icalendar
-pyyaml==3.12
+pyyaml==5.1
 rauth==0.7.3
 requests==2.20.0
 six==1.10.0               # via pip-tools, python-dateutil
