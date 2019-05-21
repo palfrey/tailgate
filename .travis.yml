@@ -10,6 +10,7 @@ install:
   - yarn install
 
 script:
+  - cp config.yml.example config.yml
   - yarn run heroku-postbuild
   - flask routes
   - flask db upgrade
