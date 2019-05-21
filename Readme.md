@@ -1,5 +1,6 @@
 Tailgate
 ========
+[![Build Status](https://travis-ci.com/palfrey/tailgate.svg?branch=master)](https://travis-ci.com/palfrey/tailgate)
 
 Generates a calendar of all the books for your followed authors on [Goodreads](https://www.goodreads.com). 
 This provides you with information on when they're releasing new books.

@@ -1,0 +1,11 @@
+dist: xenial
+language: generic
+
+install:
+  - pip install -r requirements.txt
+  - yarn install
+
+script:
+  - yarn run heroku-postbuild
+  - flask routes
+  - flask db upgrade
