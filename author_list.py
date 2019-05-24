@@ -21,7 +21,7 @@ def get_books(key, author_obj):
         tree = ElementTree.fromstring(author_list.content)
         books = tree.findall("./author/books/book")
         for book in books:
-            #raise Exception(ElementTree.tostring(book))
+            edition = book.find("edition_information").text
             title = book.find("title").text
             when = datetime.date(parse_val(book.find("publication_year").text), parse_val(book.find("publication_month").text), parse_val(book.find("publication_day").text))
             if when == datetime.date(1,1,1):
@@ -29,7 +29,7 @@ def get_books(key, author_obj):
             if when == None:
                 raise Exception(book)
             if title not in all_books or (when !=None and all_books[title]["when"] > when):
-                all_books[title] = {"when": when, "id": int(book.find("id").text)}
+                all_books[title] = {"when": when, "id": int(book.find("id").text), "edition": edition}
         if len(books) == 30:
             page +=1
         else:
@@ -54,11 +54,14 @@ def get_books(key, author_obj):
                 logging.debug("Skipping %s", title)
                 break
 
+            edition = book.find("edition_information")
+            if edition != None:
+                edition = edition.text
             when = datetime.date(parse_val(book.find("original_publication_year").text), parse_val(book.find("original_publication_month").text), parse_val(book.find("original_publication_day").text))
             if when == datetime.date(1,1,1):
                 continue
             if title not in all_books or (when !=None and all_books[title]["when"] > when):
-                all_books[title] = {"when": when, "id": int(book.find("best_book/id").text)}
+                all_books[title] = {"when": when, "id": int(book.find("best_book/id").text), "edition": edition}
         if len(books) == 10:
             page +=1
         else:

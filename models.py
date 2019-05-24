@@ -34,6 +34,9 @@ def build_models(db):
             for book in self.books:
                 db.session.delete(book)
             for title, values in books.items():
+                if values["edition"] not in [None, "First Edition"]:
+                    print("Skipping '%s' of '%s'" % (values["edition"], title))
+                    continue
                 id = values["id"]
                 book = Book.query.filter_by(id=id).first()
                 if book != None:
