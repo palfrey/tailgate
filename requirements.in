@@ -4,7 +4,7 @@ requests
 rauth
 Flask-SQLAlchemy
 gunicorn
-psycopg2
+psycopg2-binary
 Flask-Migrate
 icalendar
 humanize
