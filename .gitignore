@@ -3,3 +3,4 @@ config.yml
 node_modules/
 .vscode/
 *.jpg
+__pycache__
