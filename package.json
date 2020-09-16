@@ -4,7 +4,7 @@
     "jquery": "3.5.0"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "4",
+    "copy-webpack-plugin": "5",
     "html-loader": "0.5",
     "webpack": "4",
     "webpack-cli": "^3"
