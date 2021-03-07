@@ -164,7 +164,7 @@ def calendar(id):
     cal.add('X-WR-CALNAME', "Book calendar for %s" % user.name)
     for book in all_books:
         event = icalendar.Event()
-        event.add('uid', book.id)
+        event.add('uid', f"{book.id}-{book.published:%Y%m%d}")
         event.add('dtstart', book.published.date())
         event.add('dtend', (book.published + datetime.timedelta(days=1)).date())
         event.add('dtstamp', datetime.datetime.now())
