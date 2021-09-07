@@ -18,13 +18,14 @@ module.exports = {
         //filename: "[name].bundle.js"
     },
     plugins: [
-      new CopyWebpackPlugin(
-        Assets.map(asset => {
+      new CopyWebpackPlugin({
+        patterns: Assets.map(asset => {
           return {
             from: path.resolve(__dirname, `./node_modules/${asset}`),
             to: path.resolve(__dirname, './static')
           };
         })
+      }
       )
     ]
 };
