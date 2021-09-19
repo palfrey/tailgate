@@ -7,10 +7,10 @@
     "copy-webpack-plugin": "6",
     "html-loader": "0.5",
     "webpack": "5",
-    "webpack-cli": "^3"
+    "webpack-cli": "^4"
   },
   "scripts": {
-    "heroku-postbuild": "webpack -p"
+    "heroku-postbuild": "webpack --mode=production"
   },
   "cacheDirectories": [
     "node_modules",
