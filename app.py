@@ -12,6 +12,7 @@ import sys
 import datetime
 import re
 import icalendar
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 if "DYNO" in os.environ:
@@ -184,7 +185,7 @@ def author(id, author_id):
     author.update_books(key=config["goodreads"]["key"])
     return redirect(url_for("info", id=id))
 
-if __name__ == "__main__":
+def update_authors():
     print("Updating authors")
     order = Author.last_updated.asc()
     if db.session.bind.dialect.name != "sqlite": # Due to https://bitbucket.org/zzzeek/sqlalchemy/issues/3231/nullsfirst-nullslast-broken-with-sqlite
@@ -192,3 +193,12 @@ if __name__ == "__main__":
     for author in Author.query.order_by(order).all():
         print("Updating %s" % author.name)
         author.update_books(key=config["goodreads"]["key"])
+
+
+if __name__ == "__main__":
+    update_authors()
+
+
+scheduler = BackgroundScheduler()
+job = scheduler.add_job(update_authors, 'cron', hour=9, minute=30)
+scheduler.start()
