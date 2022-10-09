@@ -28,6 +28,15 @@ def get_books(key, author_obj):
                 continue
             if when == None:
                 raise Exception(book)
+            publisher = book.find("publisher")
+            if publisher is not None:
+                publisher = publisher.text
+                if publisher is None:
+                    publisher = ""
+            else:
+                publisher = ""
+            if publisher == "HarperCollins - AU": # FIXME: just skips an Australian publisher, because there's no data on publisher regions
+                continue
             if title not in all_books or (when !=None and all_books[title]["when"] > when):
                 all_books[title] = {"when": when, "id": int(book.find("id").text), "edition": edition}
         if len(books) == 30:
