@@ -8,6 +8,7 @@ psycopg2-binary
 Flask-Migrate
 icalendar
 humanize
+apscheduler
 
 flake8
 pip-tools
