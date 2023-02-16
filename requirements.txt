@@ -49,10 +49,11 @@ jinja2==2.11.3
     # via flask
 mako==1.2.2
     # via alembic
-markupsafe==1.1.1
+markupsafe==2.1.2
     # via
     #   jinja2
     #   mako
+    #   werkzeug
 mccabe==0.6.1
     # via flake8
 pip-tools==5.3.1
@@ -100,7 +101,7 @@ tzlocal==4.2
     # via apscheduler
 urllib3==1.26.6
     # via requests
-werkzeug==1.0.1
+werkzeug==2.2.3
     # via flask
 zipp==3.11.0
     # via importlib-metadata
