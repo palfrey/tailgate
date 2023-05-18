@@ -199,6 +199,8 @@ if __name__ == "__main__":
     update_authors()
 
 
+logging.basicConfig()
+logging.getLogger('apscheduler').setLevel(logging.DEBUG)
 scheduler = BackgroundScheduler()
 job = scheduler.add_job(update_authors, 'cron', hour=9, minute=30)
 scheduler.start()
