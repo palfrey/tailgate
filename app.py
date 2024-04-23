@@ -1,5 +1,5 @@
 from rauth import OAuth1Service, OAuth1Session
-from flask import (Flask, render_template, url_for,
+from flask import (Flask, flash, render_template, url_for,
                    request, session, redirect, make_response)
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, upgrade
@@ -35,12 +35,6 @@ else:
 
 print("Config", config)
 
-@app.before_first_request
-def initial_setup():
-    print("Initial upgrade")
-    with app.app_context():
-        upgrade()
-
 
 @app.before_request
 def make_session_permanent():
@@ -65,6 +59,11 @@ migrate = Migrate(app, db)
 models = build_models(db)
 for m in models:
     globals()[m.__name__] = m
+
+
+print("Initial upgrade")
+with app.app_context():
+    upgrade()
 
 goodreads = OAuth1Service(
     consumer_key=config["goodreads"]["key"],
@@ -93,7 +92,7 @@ def oauth_request():
 def oauth_callback():
     authorize = int(request.args['authorize'])
     if authorize == 0:
-        flask("You didn't authorise access on Goodreads")
+        flash("You didn't authorise access on Goodreads")
         return redirect(url_for('index'))
     oauth_token = request.args['oauth_token']
     session = goodreads.get_auth_session(oauth_token, tokens[oauth_token])
