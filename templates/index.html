@@ -4,12 +4,9 @@
 <div class="jumbotron">
 	<h1 class="display-4">Tailgate</h1>
 	<p>
-		Generates a calendar of all the books for your followed authors on <a href="https://www.goodreads.com/">Goodreads</a>.
+		Generates a calendar of all the books for your followed authors on <a href="https://openlibrary.org/">Open Library</a>.
 		This provides you with information on when they're releasing new books.
 	</p>
 </div>
 
-<form action="{{ url_for ('oauth_request')}}" method="get">
-	<button type="submit" class="btn btn-primary btn-lg">Connect to Goodreads</button>
-</form>
 {% endblock %}

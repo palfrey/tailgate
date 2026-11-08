@@ -22,10 +22,6 @@ if "DYNO" in os.environ:
         "app": {
             "database_uri": os.environ["DATABASE_URL"]
         },
-        "goodreads": {
-            "key": os.environ["KEY"],
-            "secret": os.environ["SECRET"]
-        },
         "flask": {
             "secret_key": os.environ["FLASK_ENCRYPTION_KEY"]
         }
@@ -65,28 +61,9 @@ print("Initial upgrade")
 with app.app_context():
     upgrade()
 
-goodreads = OAuth1Service(
-    consumer_key=config["goodreads"]["key"],
-    consumer_secret=config["goodreads"]["secret"],
-    name='goodreads',
-    request_token_url='https://www.goodreads.com/oauth/request_token',
-    authorize_url='https://www.goodreads.com/oauth/authorize',
-    access_token_url='https://www.goodreads.com/oauth/access_token',
-    base_url='https://www.goodreads.com/'
-)
-
 @app.route("/")
 def index():
     return render_template('index.html', **config)
-
-tokens = {}
-
-@app.route("/oauth/request", methods=["GET"])
-def oauth_request():
-    request_token, request_token_secret = goodreads.get_request_token(header_auth=True)
-    tokens[request_token] = request_token_secret
-    authorize_url = goodreads.get_authorize_url(request_token)
-    return redirect("%s&oauth_callback=%s" % (authorize_url, url_for("oauth_callback", _external=True)))
 
 @app.route("/oauth/callback", methods=["GET"])
 def oauth_callback():

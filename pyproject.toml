@@ -1,0 +1,31 @@
+[project]
+name = "tailgate"
+version = "0.1.0"
+description = "Generates a calendar of all the books for your followed authors"
+readme = "README.md"
+authors = [
+    { name = "Tom Parker-Shemilt", email = "palfrey@tevp.net" }
+]
+requires-python = ">=3.11"
+dependencies = [
+  "flask==3.0.3",
+  "pyyaml==6.0.1",
+  "requests==2.31.0",
+  "rauth==0.7.3",
+  "flask-sqlalchemy==3.1.1",
+  "gunicorn==22.0.0",
+  "psycopg2-binary==2.9.9",
+  "flask-migrate==4.0.7",
+  "icalendar==5.0.12",
+  "humanize==4.9.0",
+  "apscheduler==3.10.4",
+]
+
+[dependency-groups]
+dev = [
+  "flake8==7.0.0",    
+]
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"
