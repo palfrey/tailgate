@@ -18,7 +18,7 @@ if "DYNO" in os.environ:
         "Found DYNO environment variable, so assuming we're in Heroku")
     config = {
         "app": {
-            "database_uri": os.environ["DATABASE_URL"]
+            "database_uri": os.environ["DATABASE_URL"].replace("postgres://", "postgresql://") # See https://stackoverflow.com/a/66794960
         },
         "flask": {
             "secret_key": os.environ["FLASK_ENCRYPTION_KEY"]
