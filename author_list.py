@@ -1,78 +1,73 @@
-import requests, datetime
-from xml.etree import ElementTree
-import logging
+from typing import cast
 
-def get_books(key, author_obj):
+import requests
+import dateutil
+
+session = requests.session()
+session.headers.update({"User-Agent": "Tailgate (palfrey@tevp.net)"})
+
+
+def get_books(author_obj, Book, db_session):
     all_books = {}
 
-    def parse_val(val):
-        if val == None:
-            return 1
-        else:
-            return int(val)
-
-    # Some authors have a good author list
-    page = 1
-    while True:
-        url = "https://www.goodreads.com/author/list/%s?format=xml&key=%s&page=%d" % (author_obj.id, key, page)
+    url = "https://openlibrary.org/authors/%s/works.json?offset=0" % author_obj.id
+    while True:        
         print(url)
-        author_list = requests.get(url)
+        author_list = session.get(url)
         author_list.raise_for_status()
-        tree = ElementTree.fromstring(author_list.content)
-        books = tree.findall("./author/books/book")
+        books = author_list.json()["entries"]
         for book in books:
-            edition = book.find("edition_information").text
-            title = book.find("title").text
-            when = datetime.date(parse_val(book.find("publication_year").text), parse_val(book.find("publication_month").text), parse_val(book.find("publication_day").text))
-            if when == datetime.date(1,1,1):
-                continue
-            if when == None:
-                raise Exception(book)
-            publisher = book.find("publisher")
-            if publisher is not None:
-                publisher = publisher.text
-                if publisher is None:
-                    publisher = ""
-            else:
-                publisher = ""
-            if publisher == "HarperCollins - AU": # FIXME: just skips an Australian publisher, because there's no data on publisher regions
-                continue
-            if title not in all_books or (when !=None and all_books[title]["when"] > when):
-                all_books[title] = {"when": when, "id": int(book.find("id").text), "edition": edition}
-        if len(books) == 30:
-            page +=1
-        else:
-            break
+            try:
+                for author in book["authors"]:
+                    if (author["type"] == "/type/author_role" or author["type"]["key"] == "/type/author_role") and author["author"]["key"] == "/authors/%s" % author_obj.id:
+                        break
+                else:
+                    print("Can't find author", book )
+                    continue
+            except (KeyError, TypeError):
+                raise Exception(book["authors"])
 
-    # ... and some you need to search for
-    page = 1
-    while True:
-        logging.debug("Page %d", page)
-        url = "https://www.goodreads.com/search/index.xml?q=%s&search=author&page=%s&key=%s" % (author_obj.name, page, key)
-        following = requests.get(url)
-        following.raise_for_status()
-        tree = ElementTree.fromstring(following.content)
-        books = tree.findall("./search/results/work")
+            id = book["key"].split("/")[-1]
+            existing_book = Book.query.filter_by(id=id).first()
+            if existing_book is not None:
+                print("existing", existing_book.__dict__)
+                all_books[existing_book.title] = existing_book
+                continue
 
-        for book in books:
-            title = book.find("best_book/title").text
-            for author in book.findall("best_book/author"):
-                if int(author.find("id").text) == author_obj.id:
-                    break
-            else:
-                logging.debug("Skipping %s", title)
+            if "title" not in book:
+                continue
+            title = book["title"]
+
+            editions = session.get(f"https://openlibrary.org/works/{id}/editions.json")
+            editions.raise_for_status()
+            for edition in editions.json()["entries"]:
+                book_id = edition["key"].split("/")[-1]
+
+                languages = edition.get("languages",[])
+                if len(languages) > 0:
+                    language_key = languages[0].get("key", "")
+                    if language_key.startswith("/languages/") and language_key != "/languages/eng":
+                        continue
+
+                book_obj = session.get(f"https://openlibrary.org/books/{book_id}.json")
+                book_obj.raise_for_status()
+                book_obj = book_obj.json()
+
+                if "publish_date" not in book_obj:
+                    continue
+                try:
+                    when = dateutil.parser.parse(book_obj["publish_date"])
+                except Exception:
+                    raise Exception(book_obj)
+                new_book = Book(id=id, title=title, published=when, author_id=author_obj.id)
+                print(new_book.__dict__)
+                db_session.add(new_book)
+                db_session.commit()
+                all_books[title] = new_book
                 break
-
-            edition = book.find("edition_information")
-            if edition != None:
-                edition = edition.text
-            when = datetime.date(parse_val(book.find("original_publication_year").text), parse_val(book.find("original_publication_month").text), parse_val(book.find("original_publication_day").text))
-            if when == datetime.date(1,1,1):
-                continue
-            if title not in all_books or (when !=None and all_books[title]["when"] > when):
-                all_books[title] = {"when": when, "id": int(book.find("best_book/id").text), "edition": edition}
-        if len(books) == 10:
-            page +=1
-        else:
+        next_page = author_list.json()["links"].get("next")
+        if next_page is None:
             break
+        url = "https://openlibrary.org" +next_page
+
     return all_books

@@ -9,4 +9,9 @@
 	</p>
 </div>
 
+<form action="{{ url_for ('lists_for_user')}}" method="get">
+	Goto <a href="https://openlibrary.org/account">settings in Open Library</a> and get your username<br />
+	Account: <input type="text" name="account" /><br />
+	<button type="submit" class="btn btn-primary btn-lg">Lookup user</button>
+</form>
 {% endblock %}

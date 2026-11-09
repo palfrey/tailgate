@@ -578,15 +578,6 @@ wheels = [
 ]
 
 [[package]]
-name = "rauth"
-version = "0.7.3"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/43/aa/7c8e852275394d65ac5bf3ac9945ecaafe4d083089e09cb0a267efea389a/rauth-0.7.3.tar.gz", hash = "sha256:524cdbc1c28560eacfc9a9d40c59525eb8d00fdf07fbad86107ea24411477b0a", size = 16530, upload-time = "2017-01-22T16:51:41.384Z" }
-
-[[package]]
 name = "requests"
 version = "2.31.0"
 source = { registry = "https://pypi.org/simple" }
@@ -695,7 +686,7 @@ wheels = [
 [[package]]
 name = "tailgate"
 version = "0.1.0"
-source = { editable = "." }
+source = { virtual = "." }
 dependencies = [
     { name = "apscheduler" },
     { name = "flask" },
@@ -705,8 +696,8 @@ dependencies = [
     { name = "humanize" },
     { name = "icalendar" },
     { name = "psycopg2-binary" },
+    { name = "python-dateutil" },
     { name = "pyyaml" },
-    { name = "rauth" },
     { name = "requests" },
 ]
 
@@ -725,8 +716,8 @@ requires-dist = [
     { name = "humanize", specifier = "==4.9.0" },
     { name = "icalendar", specifier = "==5.0.12" },
     { name = "psycopg2-binary", specifier = "==2.9.9" },
+    { name = "python-dateutil", specifier = "==4.0.0" },
     { name = "pyyaml", specifier = "==6.0.1" },
-    { name = "rauth", specifier = "==0.7.3" },
     { name = "requests", specifier = "==2.31.0" },
 ]
 

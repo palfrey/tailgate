@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Tailgate - {{ account }}{% endblock %}
+{% block content %}
+<div class="jumbotron">
+	<h1><a href="/">Tailgate</a></h1>
+	<p>Lists:</p>
+	<ul>
+	{% for list in lists %}
+		<li><a href="{{url_for('info', list_id=list.id, account=account)}}">{{list.name}}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+{% endblock %}

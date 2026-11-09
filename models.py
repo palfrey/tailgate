@@ -7,10 +7,7 @@ log = logging.getLogger("models")
 
 def build_models(db):
     class User(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        name = db.Column(db.String, nullable=False)
-        token = db.Column(db.String, nullable=False)
-        token_secret = db.Column(db.String, nullable=False)
+        id = db.Column(db.String, primary_key=True)
     
     class Follows(db.Model):
         user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
@@ -28,21 +25,9 @@ def build_models(db):
             return humanize.naturaltime(
                 datetime.datetime.now() - self.last_updated)
 
-        def update_books(self, key=None):
+        def update_books(self):
             log.info("Updating %s" % self.name)
-            books = author_list.get_books(key, self)
-            for book in self.books:
-                db.session.delete(book)
-            for title, values in books.items():
-                if values["edition"] not in [None, "First Edition", "Trade", "Deluxe Edition"] or title.find("Lib/E") != -1:
-                    print("Skipping '%s' of '%s'" % (values["edition"], title))
-                    continue
-                id = values["id"]
-                book = Book.query.filter_by(id=id).first()
-                if book != None:
-                    print("Multiple authors for %s" % title)
-                    continue
-                db.session.add(Book(id=id, title=title, published=values["when"], author=self))
+            books = author_list.get_books(self, Book, db.session)
             self.last_updated = datetime.datetime.now()
             db.session.commit()
 
