@@ -4,10 +4,10 @@
     "jquery": "3.5.0"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "6",
-    "html-loader": "1",
+    "copy-webpack-plugin": "14",
+    "html-loader": "5",
     "webpack": "5",
-    "webpack-cli": "^4"
+    "webpack-cli": "^7"
   },
   "scripts": {
     "heroku-postbuild": "webpack --mode=production"
