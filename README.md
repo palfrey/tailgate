@@ -2,7 +2,7 @@ Tailgate
 ========
 [![CI](https://github.com/palfrey/tailgate/actions/workflows/ci.yml/badge.svg)](https://github.com/palfrey/tailgate/actions/workflows/ci.yml)
 
-Generates a calendar of all the books for your followed authors on [Goodreads](https://www.goodreads.com). 
+Generates a calendar of all the books for your followed authors on [Open Library](https://openlibrary.org/). 
 This provides you with information on when they're releasing new books.
 
 
@@ -22,7 +22,6 @@ Heroku install
 2. Go into the app settings and do the following   
     * Make sure both `heroku/python` and `heroku/nodejs` are in the Buildpacks list
     * Set `FLASK_ENCRYPTION_KEY` to something random
-    * Set `KEY` and `SECRET` to your Goodreads key/secret
 3. Add "Heroku Postgres" to the addons for this app. "Hobby Dev" level is good enough.
 4. Add ["Heroku Scheduler"](https://elements.heroku.com/addons/scheduler) to the addons for this app, and add `python app.py` to run every so often.
 5. Click "Open app" and make sure the app comes up ok, as the first request does the initial database migrations.
