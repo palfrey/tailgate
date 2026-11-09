@@ -35,6 +35,6 @@ def build_models(db):
         id = db.Column(db.String, primary_key=True)
         title = db.Column(db.String, nullable=False)
         published = db.Column(db.DateTime, nullable=False)
-        author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
+        author_id = db.Column(db.String, db.ForeignKey('author.id'), nullable=False)
 
     return (User, Follows, Author, Book)
