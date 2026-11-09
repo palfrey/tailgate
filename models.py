@@ -10,11 +10,11 @@ def build_models(db):
         id = db.Column(db.String, primary_key=True)
     
     class Follows(db.Model):
-        user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-        follows = db.Column(db.Integer, db.ForeignKey('author.id'), primary_key=True)
+        user_id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
+        follows = db.Column(db.String, db.ForeignKey('author.id'), primary_key=True)
 
     class Author(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
+        id = db.Column(db.String, primary_key=True)
         name = db.Column(db.String, nullable=False)
         last_updated = db.Column(db.DateTime, nullable=True)
         books = db.relationship('Book', backref='author', lazy='dynamic')
@@ -32,7 +32,7 @@ def build_models(db):
             db.session.commit()
 
     class Book(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
+        id = db.Column(db.String, primary_key=True)
         title = db.Column(db.String, nullable=False)
         published = db.Column(db.DateTime, nullable=False)
         author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
