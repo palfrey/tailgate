@@ -16,8 +16,5 @@
     "node_modules",
     "static"
   ],
-  "engines": {
-    "node": ">= 14, <18",
-    "yarn": ">= 1.0.0, <2"
-  }
+  "packageManager": "pnpm@12.3.4"
 }
