@@ -18,7 +18,8 @@ dependencies = [
   "icalendar==5.0.12",
   "humanize==4.9.0",
   "apscheduler==3.10.4",
-  "python-dateutil==4.0.0"
+  "python-dateutil==4.0.0",
+  "psycopg==3.3.8",
 ]
 
 [dependency-groups]
