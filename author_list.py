@@ -57,6 +57,9 @@ def get_books(author_obj, Book, db_session):
                 if "publish_date" not in book_obj:
                     continue
 
+                if "audiobook" in book_obj.get("physical_format", "").lower():
+                    continue
+
                 dates.append(book_obj["publish_date"])
 
             if len(dates) == 0:
