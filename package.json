@@ -5,7 +5,7 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "14",
-    "html-loader": "5",
+    "html-loader": "1",
     "webpack": "5",
     "webpack-cli": "^7"
   },
