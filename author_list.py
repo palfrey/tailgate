@@ -40,6 +40,7 @@ def get_books(author_obj, Book, db_session):
 
             editions = session.get(f"https://openlibrary.org/works/{id}/editions.json")
             editions.raise_for_status()
+            dates = []
             for edition in editions.json()["entries"]:
                 book_id = edition["key"].split("/")[-1]
 
@@ -55,16 +56,21 @@ def get_books(author_obj, Book, db_session):
 
                 if "publish_date" not in book_obj:
                     continue
-                try:
-                    when = dateutil.parser.parse(book_obj["publish_date"])
-                except Exception:
-                    raise Exception(book_obj)
-                new_book = Book(id=id, title=title, published=when, author_id=author_obj.id)
-                print(new_book.__dict__)
-                db_session.add(new_book)
-                db_session.commit()
-                all_books[title] = new_book
-                break
+
+                dates.append(book_obj["publish_date"])
+
+            if len(dates) == 0:
+                continue
+            longest_date = sorted(dates, reverse=True, key=lambda d: len(d))[0]
+            try:
+                when = dateutil.parser.parse(longest_date)
+            except Exception:
+                raise Exception((longest_date, dates))
+            new_book = Book(id=id, title=title, published=when, author_id=author_obj.id)
+            print(new_book.__dict__)
+            db_session.add(new_book)
+            db_session.commit()
+            all_books[title] = new_book
         next_page = author_list.json()["links"].get("next")
         if next_page is None:
             break
