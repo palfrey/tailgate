@@ -136,18 +136,18 @@ def author(account, author_id, list_id):
     return redirect(url_for("info", account=account, list_id=list_id))
 
 def update_authors():
-    print("Updating authors")
-    order = Author.last_updated.asc()
-    if db.session.bind is not None and db.session.bind.dialect.name != "sqlite": # Due to https://bitbucket.org/zzzeek/sqlalchemy/issues/3231/nullsfirst-nullslast-broken-with-sqlite
-        order = order.nullsfirst()
-    for author in Author.query.order_by(order).all():
-        print("Updating %s" % author.name)
-        author.update_books()
+    with app.app_context():
+        print("Updating authors")
+        order = Author.last_updated.asc()
+        if db.session.bind is not None and db.session.bind.dialect.name != "sqlite": # Due to https://bitbucket.org/zzzeek/sqlalchemy/issues/3231/nullsfirst-nullslast-broken-with-sqlite
+            order = order.nullsfirst()
+        for author in Author.query.order_by(order).all():
+            print("Updating %s" % author.name)
+            author.update_books()
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        update_authors()
+    update_authors()
 
 
 logging.basicConfig()
